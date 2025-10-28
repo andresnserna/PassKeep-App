@@ -24,14 +24,14 @@ class PasswordViewController: UIViewController, UITableViewDelegate, UITableView
         super.viewDidLoad()
         
         items = []
-        var data = [Task]()
+        var data = [SavedLogin]()
         
         do {
-            data = try context.fetch(Task.fetchRequest())
+            data = try context.fetch(SavedLogin.fetchRequest())
             
-            for existingTask in data {
-                if existingTask.username == activeUser {
-                    items.append(existingTask.taskItem!)
+            for existingLogin in data {
+                if existingLogin.user_username == activeUser {
+                    items.append(existingLogin.login_websiteURL!)
                 }
             }
         }
@@ -40,34 +40,17 @@ class PasswordViewController: UIViewController, UITableViewDelegate, UITableView
         }
 
     }
-    @IBAction func btn_addItem(_ sender: UIButton) {
-        if txt_addItemText.text != nil && txt_addItemText.text != "" {
-            let newTask = Task(context: context)
-            newTask.taskItem = txt_addItemText.text!
-            newTask.username = activeUser
-            
-            do {
-                try context.save()
-            } catch {
-                print("Error saving task: \(error)")
-            }
-            
-            items.append(txt_addItemText.text!)
-            tbl_items.reloadData()
-            txt_addItemText.text = ""
-        }
-    }
     
     func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCell.EditingStyle, forRowAt indexPath: IndexPath) {
         if editingStyle == .delete {
-            var data = [Task]()
+            var data = [SavedLogin]()
             
             do {
-                data = try context.fetch(Task.fetchRequest())
+                data = try context.fetch(SavedLogin.fetchRequest())
                 
-                for existingTask in data {
-                    if existingTask.taskItem == items[indexPath.row] && existingTask.username == activeUser{
-                        context.delete(existingTask)
+                for existingLogin in data {
+                    if existingLogin.login_websiteURL == items[indexPath.row] && existingLogin.user_username == activeUser{
+                        context.delete(existingLogin)
                     }
                 }
             }
@@ -83,9 +66,38 @@ class PasswordViewController: UIViewController, UITableViewDelegate, UITableView
     
     @IBOutlet weak var tbl_items: UITableView!
     
-    @IBOutlet weak var txt_addItemText: UITextField!
+    @IBOutlet weak var txt_websiteURL: UITextField!
     
+    @IBOutlet weak var txt_usernameField: UITextField!
     
+    @IBAction func btn_addAccount(_ sender: UIButton) {
+        if (txt_websiteURL.text != nil && txt_websiteURL.text != "") &&
+            (txt_usernameField.text != nil && txt_usernameField.text != "") &&
+             (txt_passwordField.text != nil && txt_passwordField.text != "") {
+            
+            let savedLogin = SavedLogin(context: context)
+            savedLogin.login_websiteURL = txt_websiteURL.text!
+            savedLogin.login_username = txt_usernameField.text!
+            savedLogin.login_password = txt_passwordField.text!
+            savedLogin.user_username = activeUser
+            
+            do {
+                try context.save()
+            } catch {
+                print("Error saving task: \(error)")
+            }
+            
+            items.append(txt_websiteURL.text!)
+            tbl_items.reloadData()
+            txt_websiteURL.text = ""
+            txt_usernameField.text = ""
+            txt_passwordField.text = ""
+        }
+    }
     
+    @IBOutlet weak var txt_passwordField: UITextField!
+    
+    @IBAction func btn_generatePassword(_ sender: UIButton) {
+    }
     
 }
