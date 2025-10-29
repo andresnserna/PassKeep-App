@@ -38,8 +38,8 @@ class ViewController: UIViewController {
                 if (existingUser.username == txt_username.text && existingUser.password == txt_password.text) {
                     let mainStoryboard: UIStoryboard = UIStoryboard(name: "Main", bundle: Bundle.main)
                     let destinationViewController: UIViewController = mainStoryboard.instantiateViewController(withIdentifier: "SecurePage")
-                    self.present(destinationViewController, animated: true, completion: nil)
                     activeUser = existingUser.username
+                    self.present(destinationViewController, animated: true, completion: nil)
                     return
                 } else {
                     lbl_errorMessage.isHidden = false

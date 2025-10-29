@@ -25,19 +25,30 @@ class PasswordViewController: UIViewController, UITableViewDelegate, UITableView
         
         items = []
         var data = [SavedLogin]()
+        print("1")
         
         do {
             data = try context.fetch(SavedLogin.fetchRequest())
-            
+            print("2")
+
             for existingLogin in data {
+                print("3")
+                print(existingLogin.user_username!)
+                print(activeUser!)
+
                 if existingLogin.user_username == activeUser {
                     items.append(existingLogin.login_websiteURL!)
+                    print("4")
+                    print(items)
+
                 }
             }
         }
         catch {
             print("Error loading saved accounts: \(error)")
         }
+        
+        tbl_items.reloadData()
 
     }
     
