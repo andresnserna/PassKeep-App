@@ -92,12 +92,32 @@ class PasswordViewController: UIViewController, UITableViewDelegate, UITableView
             txt_websiteURL.text = ""
             txt_usernameField.text = ""
             txt_passwordField.text = ""
+        } else {
+            let alertview = UIAlertController(title: "Error", message: "Please fill in all fields", preferredStyle: .alert)
+            alertview.addAction(UIAlertAction(title: "OK", style: .default, handler: nil))
+            self.present(alertview, animated: true)
         }
     }
     
     @IBOutlet weak var txt_passwordField: UITextField!
     
     @IBAction func btn_generatePassword(_ sender: UIButton) {
+        var randomPassword = ""
+        let length = 12
+        
+        for _ in 0..<length {
+            // ASCII range 33...126 gives you all printable characters except space
+            let randomAscii = Int.random(in: 33...126)
+            
+            if let scalar = UnicodeScalar(randomAscii) {
+                randomPassword.append(Character(scalar))
+            }
+        }
+        
+        txt_passwordField.text = randomPassword
     }
     
+    @IBAction func btn_signOut(_ sender: UIButton) {
+        
+    }
 }

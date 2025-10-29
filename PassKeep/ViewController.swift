@@ -64,30 +64,6 @@ class ViewController: UIViewController {
         }
     }
     
-    @IBAction func btn_listAllUsers(_ sender: UIButton) {
-        var data = [Accounts]()
-        var alertTitle : String = ""
-        var alertMessage : String = ""
-        var alertController : UIAlertController!
-        
-        do {
-            data = try context.fetch(Accounts.fetchRequest())
-            
-            for existingUser in data {
-                print("Username: " + existingUser.username! + ", Password: " + existingUser.password!)
-            }
-        }
-        catch {
-            //preent error pop up
-            alertTitle = "Error"
-            alertMessage = "Error fetching data: \(error)"
-            alertController = UIAlertController(title: alertTitle, message: alertMessage, preferredStyle: .alert)
-            alertController.addAction(UIAlertAction(title: "OK", style: .default, handler: nil))
-            present(alertController, animated: true, completion: nil)
-            print("Error fetching data: \(error)")
-        }
-    }
-    
     func addNewUser(newUsername: String, newPassword: String) {
         let newAccount = Accounts (context: context)
         newAccount.username = newUsername

@@ -6,13 +6,20 @@
 //
 
 import UIKit
+import WebKit
 
 class AccountViewController: UIViewController {
+    var webView: WKWebView!
+    var urlString: String?
 
     override func viewDidLoad() {
         super.viewDidLoad()
 
-        // Do any additional setup after loading the view.
+        // Load the webpage if we have a URL
+        if let urlString = urlString, let url = URL(string: urlString) {
+            let request = URLRequest(url: url)
+            webView.load(request)
+        }
     }
     
 
