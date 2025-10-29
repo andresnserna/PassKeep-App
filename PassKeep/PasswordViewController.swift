@@ -36,7 +36,7 @@ class PasswordViewController: UIViewController, UITableViewDelegate, UITableView
             }
         }
         catch {
-            print("Error fetching tasks: \(error)")
+            print("Error loading saved accounts: \(error)")
         }
 
     }
@@ -61,6 +61,14 @@ class PasswordViewController: UIViewController, UITableViewDelegate, UITableView
             appDelegate.saveContext()
             items.remove(at: indexPath.row)
             tbl_items.reloadData()
+        }
+    }
+    
+    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
+        if let destinationVC = segue.destination as? AccountViewController,
+           let indexPath = tbl_items.indexPathForSelectedRow {
+            // Pass the selected URL to the AccountViewController
+            destinationVC.urlString = items[indexPath.row]
         }
     }
     
@@ -118,6 +126,6 @@ class PasswordViewController: UIViewController, UITableViewDelegate, UITableView
     }
     
     @IBAction func btn_signOut(_ sender: UIButton) {
-        
+        //do we need to delete this?
     }
 }
