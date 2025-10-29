@@ -236,7 +236,7 @@
                         <outlet property="lbl_password" destination="Iua-wc-K9v" id="wAG-eG-tTt"/>
                         <outlet property="lbl_username" destination="qVB-tQ-nb0" id="ixk-bk-DBa"/>
                         <outlet property="lbl_websiteURL" destination="w0m-gj-ASL" id="YLz-b7-ayU"/>
-                        <outlet property="view" destination="Zba-V8-gNh" id="ofV-KN-GIO"/>
+                        <outlet property="webView" destination="Zba-V8-gNh" id="UJB-JJ-kSC"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="HwR-D8-qft" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
