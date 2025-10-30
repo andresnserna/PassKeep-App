@@ -25,9 +25,14 @@ class AccountViewController: UIViewController {
         // Load the webpage if we have a URL
         //append https:// to the FRONT of the variable urlString
         urlString = "https://www." + (urlString ?? "")
-        if let thisURLString = urlString, let url = URL(string: thisURLString) {
+        // Load the webpage if we have a URL
+        if let urlString = urlString,
+           let url = URL(string: urlString),
+           let webView = webView {
             let request = URLRequest(url: url)
             webView.load(request)
+        } else {
+            print("Could not load webview - urlString: \(urlString ?? "nil"), webView: \(webView != nil)")
         }
         
         // Style like a link
@@ -35,7 +40,7 @@ class AccountViewController: UIViewController {
         lbl_websiteURL.isUserInteractionEnabled = true
         
         // Add tap gesture
-        let tap = UITapGestureRecognizer(target: self, action: #selector(linkTapped(theURL: urlString)))
+        let tap = UITapGestureRecognizer(target: self, action: #selector(linkTapped))
         lbl_websiteURL.addGestureRecognizer(tap)
     }
     
@@ -69,8 +74,8 @@ class AccountViewController: UIViewController {
         }
     }
     
-    @objc func linkTapped(theURL: String?){
-        if let url = URL(string: theURL ?? "https://www.apple.com") {
+    @objc func linkTapped(){
+        if let url = URL(string: urlString ?? "https://www.apple.com") {
                 UIApplication.shared.open(url)
         }
     }
