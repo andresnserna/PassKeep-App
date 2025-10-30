@@ -23,10 +23,20 @@ class AccountViewController: UIViewController {
         loadAccountData()
 
         // Load the webpage if we have a URL
-        if let urlString = urlString, let url = URL(string: urlString) {
+        //append https:// to the FRONT of the variable urlString
+        urlString = "https://www." + (urlString ?? "")
+        if let thisURLString = urlString, let url = URL(string: thisURLString) {
             let request = URLRequest(url: url)
             webView.load(request)
         }
+        
+        // Style like a link
+        lbl_websiteURL.textColor = .systemBlue
+        lbl_websiteURL.isUserInteractionEnabled = true
+        
+        // Add tap gesture
+        let tap = UITapGestureRecognizer(target: self, action: #selector(linkTapped(theURL: urlString)))
+        lbl_websiteURL.addGestureRecognizer(tap)
     }
     
     func loadAccountData() {
@@ -56,6 +66,12 @@ class AccountViewController: UIViewController {
             
         } catch {
             print("Error fetching saved login: \(error)")
+        }
+    }
+    
+    @objc func linkTapped(theURL: String?){
+        if let url = URL(string: theURL ?? "https://www.apple.com") {
+                UIApplication.shared.open(url)
         }
     }
 }
